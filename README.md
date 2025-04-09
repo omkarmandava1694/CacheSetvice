@@ -9,7 +9,7 @@ A simple in-memory caching service with LRU eviction policy. Evicted items are s
 - LRU-based eviction
 - APIs: add, remove, get, removeAll, clear
 - Logging and exception handling
-- Unit tested with `unittest`
+- Unit tested with 'unittest'
 
 ## Setup
 ```bash
@@ -19,11 +19,11 @@ pip install -r requirements.txt
 ```
 
 ## Running Tests
-```bash
+'''bash
 pytest
-```
+'''
 
 ## Folder Structure
-- `cache/`: Core implementation
-- `tests/`: Unit tests
-- `logs/`: Log output
+- 'cache/': Core implementation
+- 'tests/': Unit tests
+- 'logs/': Log output
