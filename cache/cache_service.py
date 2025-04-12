@@ -56,7 +56,7 @@ class CacheService:
         self.database.pop(entity_id, None)
         self.logger.info(f"Removed Entity ID: {entity_id} from cache and database")
 
-    def removeAll(self):
+    def remove_all(self):
         # Clears all the entries from both the cache and the simulated database
         self.cache.clear()
         self.database.clear()
@@ -66,3 +66,5 @@ class CacheService:
         #clear only the internal cache
         self.cache.clear()
         self.logger.info("Cleared internal cache")
+
+
