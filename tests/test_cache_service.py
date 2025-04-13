@@ -2,6 +2,56 @@
 import unittest
 from cache.entity import Entity
 from cache.cache_service import CacheService
+from cache.cache_service import InMemoryDatabaseDAO
+
+class TestInMemoryDatabaseDao(unittest.TestCase):
+    def setUp(self):
+        self.dao = InMemoryDatabaseDAO()
+        self.entity1 = Entity("1", "Name1", "Value1")
+        self.entity2 = Entity("2", "Name2", "Value2")
+
+    def test_save_and_get(self):
+        self.dao.save(self.entity1)
+        result = self.dao.get("1")
+        self.assertIsNotNone(result)
+        self.assertEqual(result.get_id(), "1")
+        self.assertEqual(result.name, "Name1")
+        self.assertEqual(result.value, "Value1")
+
+    def test_update_existing_entity(self):
+        updated_entity = Entity("1", "UpdatedName", "UpdatedValue")
+        self.dao.save(self.entity1)
+        self.dao.save(updated_entity)
+        result = self.dao.get("1")
+        self.assertEqual(result.name, "UpdatedName")
+        self.assertEqual(result.value, "UpdatedValue")
+
+    def test_remove_existing_entity(self):
+        self.dao.save(self.entity1)
+        self.dao.remove("1")
+        self.assertIsNone(self.dao.get("1"))
+
+    def test_remove_nonexistent_entity(self):
+        # Should not raise error
+        try:
+            self.dao.remove("999")
+        except Exception as e:
+            self.fail(f"Removing non-existent entity raised exception: {e}")
+
+    def test_remove_all_entities(self):
+        self.dao.save(self.entity1)
+        self.dao.save(self.entity2)
+        self.dao.remove_all()
+        self.assertEqual(self.dao.size(), 0)
+
+    def test_size_tracking(self):
+        self.assertEqual(self.dao.size(), 0)
+        self.dao.save(self.entity1)
+        self.assertEqual(self.dao.size(), 1)
+        self.dao.save(self.entity2)
+        self.assertEqual(self.dao.size(), 2)
+        self.dao.remove("1")
+        self.assertEqual(self.dao.size(), 1)
 
 class TestCacheService(unittest.TestCase):
     # Setting up a cache service instance with max size = 2.
