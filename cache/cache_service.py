@@ -3,6 +3,31 @@ from collections import OrderedDict
 import logging
 from .entity import Entity
 
+class InMemoryDatabaseDAO:
+    def __init__(self):
+        # initialize an internal dictionary to act as the in-memory database
+        self._db = {}
+
+    def save(self, entity):
+        # Save or update an entity in the in-memory database using its unique ID
+        self._db[entity.getId()] = entity
+
+    def get(self, entity_id):
+        # Retrieve an entity by ID; returns None if not found
+        return self._db.get(entity_id)
+
+    def remove(self, entity_id):
+        # Remove the entity from the database if it exists (no error if missing)
+        self._db.pop(entity_id, None)
+
+    def remove_all(self):
+        # Clear all records from the in-memory database
+        self._db.clear()
+
+    def size(self):
+        # Return the number of records currently in the database
+        return len(self._db)
+
 class CacheService:
     def __init__(self, max_size):
         # Set the maximum size for the cache
