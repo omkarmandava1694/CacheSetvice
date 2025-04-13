@@ -67,4 +67,10 @@ class CacheService:
         self.cache.clear()
         self.logger.info("Cleared internal cache")
 
+    def cache_size(self):
+        return len(self.cache)
+    
+    def db_size(self):
+        return self.database.size()
+
 
