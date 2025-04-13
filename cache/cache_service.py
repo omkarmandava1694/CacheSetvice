@@ -33,7 +33,7 @@ class CacheService:
         # Set the maximum size for the cache
         self.max_size = max_size
         # Initialize the cache using OrderDict to maintain LRU order
-        self.cache = OrderedDict()
+        self.cache = InMemoryDatabaseDAO()
         # Creating a dummy database to store evicted items
         self.database = {}
 
